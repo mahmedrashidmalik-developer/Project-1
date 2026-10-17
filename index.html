@@ -6,31 +6,298 @@
     integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
     crossorigin="anonymous"></script>
 
-<nav class="navbar sm:navbar-expand bg-1 fg-2">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer"
-            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon" aria-hidden="true"></span>
+
+
+
+
+
+
+<style>
+    .custom-navbar {
+        background: #000;
+        color: #fff;
+        padding: 10px 24px;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .custom-navbar .navbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    /* Brand */
+    .custom-navbar .navbar-brand {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 12px;
+        white-space: nowrap;
+        transition: color .25s ease;
+    }
+
+    .custom-navbar .navbar-brand:hover {
+        color: #87CEEB;
+    }
+
+    /* Desktop navigation */
+    .custom-navbar .desktop-nav {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .custom-navbar .nav-link {
+        display: inline-block;
+        color: #fff;
+        text-decoration: none;
+        padding: 9px 12px;
+        background: transparent;
+        border: 0;
+        transition: color .25s ease;
+        white-space: nowrap;
+    }
+
+    .custom-navbar .nav-link:hover,
+    .custom-navbar .nav-link:focus-visible,
+    .custom-navbar .nav-link.active {
+        color: #87CEEB;
+        background: transparent;
+    }
+
+    /* Desktop authentication buttons */
+    .custom-navbar .auth-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
+    }
+
+    .custom-navbar .auth-btn {
+        display: inline-block;
+        color: #fff;
+        background: transparent;
+        border: 1px solid #87CEEB;
+        border-radius: 8px;
+        padding: 8px 18px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .25s ease, color .25s ease;
+    }
+
+    .custom-navbar .auth-btn:hover,
+    .custom-navbar .auth-btn:focus-visible {
+        color: #000;
+        background: #87CEEB;
+    }
+
+    /* Hamburger: hidden on desktop */
+    .custom-navbar .menu-toggle {
+        display: none;
+        width: 44px;
+        height: 40px;
+        padding: 8px;
+        border: 1px solid #87CEEB;
+        border-radius: 8px;
+        background: transparent;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .custom-navbar .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 24px;
+        height: 18px;
+        margin: auto;
+    }
+
+    .custom-navbar .hamburger span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        border-radius: 2px;
+        background: #87CEEB;
+        transition: transform .25s ease, opacity .2s ease;
+    }
+
+    /* Animate hamburger into X */
+    .custom-navbar .menu-toggle[aria-expanded="true"] .hamburger span:first-child {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .custom-navbar .menu-toggle[aria-expanded="true"] .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .custom-navbar .menu-toggle[aria-expanded="true"] .hamburger span:last-child {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Keyboard accessibility */
+    .custom-navbar a:focus-visible,
+    .custom-navbar button:focus-visible {
+        outline: 2px solid #87CEEB;
+        outline-offset: 3px;
+    }
+
+    /* Mobile menu */
+    .custom-navbar .mobile-menu {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .custom-navbar {
+            padding: 10px 14px;
+        }
+
+        .custom-navbar .navbar-inner {
+            gap: 12px;
+        }
+
+        .custom-navbar .desktop-nav,
+        .custom-navbar .auth-actions {
+            display: none;
+        }
+
+        .custom-navbar .menu-toggle {
+            display: block;
+            margin-left: auto;
+        }
+
+        .custom-navbar .mobile-menu.is-open {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 4px 8px;
+            border-top: 1px solid #262626;
+            margin-top: 10px;
+        }
+
+        .custom-navbar .mobile-menu .nav-link {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .custom-navbar .mobile-menu .nav-link:hover,
+        .custom-navbar .mobile-menu .nav-link.active {
+            color: #87CEEB;
+            background: rgba(135, 206, 235, .08);
+        }
+
+        .custom-navbar .mobile-auth {
+            display: flex;
+            gap: 10px;
+            padding-top: 8px;
+        }
+
+        .custom-navbar .mobile-auth .auth-btn {
+            flex: 1;
+            text-align: center;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .custom-navbar * {
+            transition: none !important;
+        }
+    }
+</style>
+
+<nav class="custom-navbar" aria-label="Main navigation">
+    <div class="navbar-inner">
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="#home">Project 1</a>
+
+        <!-- Desktop navigation -->
+        <div class="desktop-nav">
+            <a class="nav-link active" href="#home" aria-current="page">Home</a>
+            <a class="nav-link" href="#features">Features</a>
+            <a class="nav-link" href="#pricing">Pricing</a>
+        </div>
+
+        <!-- Desktop buttons -->
+        <div class="auth-actions">
+            <a class="auth-btn" href="#login">Login</a>
+            <a class="auth-btn" href="#signup">Sign Up</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="mobileMenu"
+            aria-expanded="false">
+            <span class="hamburger" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
         </button>
-        <dialog class="drawer drawer-end" tabindex="-1" id="navbarNavAltMarkup"
-            aria-labelledby="navbarNavAltMarkupLabel">
-            <div class="drawer-header">
-                <h5 class="drawer-title" id="navbarNavAltMarkupLabel">Menu</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
-            </div>
-            <div class="drawer-body">
-                <div class="nav nav-pills navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link" href="#">Features</a>
-                    <a class="nav-link" href="#">Pricing</a>
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </div>
-            </div>
-        </dialog>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div class="mobile-menu" id="mobileMenu" inert>
+        <a class="nav-link active" href="#home" aria-current="page">Home</a>
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+
+        <div class="mobile-auth">
+            <a class="auth-btn" href="#login">Login</a>
+            <a class="auth-btn" href="#signup">Sign Up</a>
+        </div>
     </div>
 </nav>
+
+<script>
+    const navbar = document.querySelector(".custom-navbar");
+    const menuToggle = navbar.querySelector(".menu-toggle");
+    const mobileMenu = navbar.querySelector(".mobile-menu");
+
+    function setMenuOpen(open) {
+        menuToggle.setAttribute("aria-expanded", String(open));
+        menuToggle.setAttribute(
+            "aria-label",
+            open ? "Close navigation menu" : "Open navigation menu"
+        );
+
+        mobileMenu.classList.toggle("is-open", open);
+        mobileMenu.inert = !open;
+    }
+
+    menuToggle.addEventListener("click", () => {
+        const isOpen =
+            menuToggle.getAttribute("aria-expanded") === "true";
+
+        setMenuOpen(!isOpen);
+    });
+
+    // Close the menu after choosing a link
+    mobileMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => setMenuOpen(false));
+    });
+
+    // Close with Escape
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            setMenuOpen(false);
+            menuToggle.focus();
+        }
+    });
+
+    // Close if resized back to desktop
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 768) {
+            setMenuOpen(false);
+        }
+    });
+</script>
 
 <head>
     <meta charset="UTF-8">
